@@ -1,0 +1,33 @@
+export const FAULT_STATE_MESSAGES = [
+  "Short Circuit",
+  "Surge Protection",
+  "Overload",
+  "Leakage Current",
+  "Temperature Dif",
+  "Fire",
+  "High Power",
+  "Self Test Failure",
+  "Overcurrent",
+  "Unbalance",
+  "Overvoltage",
+  "Undervoltage",
+  "Phase Is Missing",
+  "Outage",
+  "Magnetism",
+  "Not Enough Credit",
+  "No Prepaid Energy",
+];
+
+export enum DpType {
+  RAW = 0x00,
+  BOOL = 0x01,
+  INT = 0x02,
+  STRING = 0x03,
+  ENUM = 0x04,
+  BITMAP = 0x05,
+  DP_TYPE_RAW_TAC2121C_VCP = 201,
+  // DP_TYPE_RAW_DDS238Packet = 200,
+  // DP_TYPE_RAW_TAC2121C_YESTERDAY = 202,
+  // DP_TYPE_RAW_TAC2121C_LASTMONTH = 203,
+  // DP_TYPE_PUBLISH_TO_MQTT = 204,
+}

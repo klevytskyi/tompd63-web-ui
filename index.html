@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      href="data:image/gif;base64,R0lGODlhEAAQALMAABEHBLT+BJxCBFgmBHx6fKxKBCQiJCIWC/ppBJSWlNTS1Pv9+0xmBDo7Oow6BNlZBCH5BAEAAAsALAAAAAAQABAAAwRzcMm5UqKYtjFalkpjEACCAITRKJrwHOV5PII3GQ/yAM+ePwYKYYYoOBwF3YEwaQCehQODcSg8AZ7EwPRwMAIBhiOHGFi2Oi9YTDYvnFAp1fq0LYY5I1LJvP14PjpBTS4wJgAzNRQhIzEoKiwfGx0fGRYfEQA7"
+      rel="shortcut icon"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,user-scalable=no"
+    />
+    <title>Breaker</title>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <h1 class="text-center" id="device-name">Breaker</h1>
+        <div class="flex wrap gap-4 mt-4">
+          <div class="toggle grow-1">
+            <div class="btn mt-2">
+              <input id="main-switch" type="checkbox" class="btn-checkbox" data-inited="false" />
+              <div class="btn-track">
+                <div class="btn-knob"></div>
+                <div class="btn-bg"></div>
+              </div>
+            </div>
+            <h3 class="toggle-label text-center">Main switch</h3>
+          </div>
+          <div class="flex column gap-2 grow-1">
+            <div id="errors-area" class="flex column gap-2">
+              <!-- <div class="device-status">
+                Surge Protection!
+              </div>
+              <div class="device-status">
+                High Power!
+              </div> -->
+            </div>
+            <div class="telemetry flex gap-3 wrap">
+              <div class="telemetry-item text-center" id="voltage">
+                <div class="telemetry-value volts">220</div>
+                <div class="telemetry-label">Voltage</div>
+              </div>
+              <div class="telemetry-item text-center" id="current">
+                <div class="telemetry-value amps">10</div>
+                <div class="telemetry-label">Current</div>
+              </div>
+              <div class="telemetry-item text-center" id="power">
+                <div class="telemetry-value kW">2.2</div>
+                <div class="telemetry-label">Power</div>
+              </div>
+              <div class="telemetry-item text-center" id="current-leakage">
+                <div class="telemetry-value mA">50</div>
+                <div class="telemetry-label">Leakage</div>
+              </div>
+              <div class="telemetry-item text-center" id="total-energy">
+                <div class="telemetry-value kWh">10000</div>
+                <div class="telemetry-label">Total energy</div>
+              </div>
+              <div
+                class="telemetry-item flex justify-center align-center gap-2 hidden"
+                id="energy-balance"
+              >
+                <div class="text-center">
+                  <div class="telemetry-value kWh">10000</div>
+                  <div class="telemetry-label">Energy balance</div>
+                </div>
+                <button class="balance-topup" id="top-up">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h2>Settings</h2>
+          <div class="settings flex gap-3 wrap">
+            <div class="settings-item">
+              <h3>Reaction time</h3>
+              <div class="flex gap-2">
+                <label id="reaction-time" class="text-nowrap grow-1 flex gap-1">
+                  <!-- <span>Reaction time</span> -->
+                  <input
+                    type="range"
+                    min="1"
+                    max="30"
+                    step="1"
+                    value="10"
+                    class="grow-1"
+                    value="5"
+                  />
+                  <output class="seconds">0</output>
+                </label>
+              </div>
+            </div>
+            <div class="settings-item">
+              <h3>Cooldown time</h3>
+              <div class="flex gap-2">
+                <label id="cooldown-time" class="text-nowrap grow-1 flex gap-1">
+                  <!-- <span>Reaction time</span> -->
+                  <input
+                    type="range"
+                    min="1"
+                    max="500"
+                    step="1"
+                    value="20"
+                    class="grow-1"
+                  />
+                  <output class="seconds">0</output>
+                </label>
+              </div>
+            </div>
+            <div class="settings-item" id="overvoltage-protection">
+              <h3>Overvoltage protection</h3>
+              <div class="flex gap-2">
+                <label class="switch-container">
+                  <span>Enabled</span>
+                  <div class="switch">
+                    <input type="checkbox" />
+                    <div class="switch-track"></div>
+                    <div class="switch-knob"></div>
+                  </div>
+                </label>
+                <label class="volts text-nowrap">
+                  <span>Threshold</span>
+                  <input
+                    type="number"
+                    min="110"
+                    max="300"
+                    step="1"
+                  />
+                </label>
+              </div>
+            </div>
+            <div class="settings-item" id="undervoltage-protection">
+              <h3>Undervoltage protection</h3>
+              <div class="flex gap-2">
+                <label class="switch-container">
+                  <span>Enabled</span>
+                  <div class="switch">
+                    <input type="checkbox" />
+                    <div class="switch-track"></div>
+                    <div class="switch-knob"></div>
+                  </div>
+                </label>
+                <label class="volts text-nowrap">
+                  <span>Threshold</span>
+                  <input
+                    type="number"
+                    min="85"
+                    max="220"
+                    step="1"
+                  />
+                </label>
+              </div>
+            </div>
+            <div class="settings-item" id="overcurrent-protection">
+              <h3>Max current protection</h3>
+              <div class="flex gap-2">
+                <label class="switch-container">
+                  <span>Enabled</span>
+                  <div class="switch">
+                    <input type="checkbox" />
+                    <div class="switch-track"></div>
+                    <div class="switch-knob"></div>
+                  </div>
+                </label>
+                <label class="amps text-nowrap">
+                  <span>Threshold</span>
+                  <input
+                    type="number"
+                    min="1"
+                    max="63"
+                    step="1"
+                  />
+                </label>
+              </div>
+            </div>
+            <div class="settings-item" id="leakage-protection">
+              <h3>Leakage current protection</h3>
+              <div class="flex gap-2">
+                <label class="switch-container">
+                  <span>Enabled</span>
+                  <div class="switch">
+                    <input type="checkbox" />
+                    <div class="switch-track"></div>
+                    <div class="switch-knob"></div>
+                  </div>
+                </label>
+                <label class="mA text-nowrap">
+                  <span>Threshold</span>
+                  <input
+                    type="number"
+                    min="10"
+                    max="99"
+                    step="1"
+                    value="10"
+                  />
+                </label>
+              </div>
+            </div>
+            <div class="settings-item" id="expence-management">
+              <h3>Expense management</h3>
+              <div class="flex gap-2">
+                <label class="switch-container">
+                  <span>Enabled</span>
+                  <div class="switch">
+                    <input type="checkbox" />
+                    <div class="switch-track"></div>
+                    <div class="switch-knob"></div>
+                  </div>
+                </label>
+                <button>Clear energy meter</button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

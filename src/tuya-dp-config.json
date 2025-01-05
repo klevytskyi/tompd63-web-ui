@@ -1,0 +1,278 @@
+{
+  "modelId": "000004pxun",
+  "services": [
+    {
+      "actions": [],
+      "code": "",
+      "description": "",
+      "events": [],
+      "name": "Default service",
+      "properties": [
+        {
+          "abilityId": 1,
+          "accessMode": "ro",
+          "code": "total_forward_energy",
+          "description": "",
+          "extensions": {
+            "iconName": "icon-dp_lightning",
+            "attribute": "1152"
+          },
+          "name": "Forward total active energy",
+          "typeSpec": {
+            "type": "value",
+            "max": 99999999,
+            "min": 0,
+            "scale": 2,
+            "step": 1,
+            "unit": "kW·h"
+          }
+        },
+        {
+          "abilityId": 6,
+          "accessMode": "ro",
+          "code": "phase_a",
+          "description": "1. A-phase voltage, current, and power\n2. Big-endian mode, HEX format, 8 bytes total\n3. Units and precision:\n   - Voltage: 2 bytes, in increments of 0.1 V\n   - Current: 3 bytes, in increments of 0.001 A\n   - Active power of A-phase: 3 bytes, in increments of 0.0001 kW\n4. Example packet:\n   08 80 00 03 E8 00 27 10 => A-phase voltage is 217.6 V, current is 1.000 A, and power is 10.000 kW\n5. Communication logic:\n   - When a user enters the panel, it actively queries the meter (sending 0x08). The meter reports data, which the panel then displays.\n   - The meter also reports data periodically: recommended 15s in Wi-Fi mode, 1h in NB mode.",
+          "extensions": {
+            "iconName": "icon-dp_lightning",
+            "attribute": "1152"
+          },
+          "name": "A-phase voltage, current, and power",
+          "typeSpec": {
+            "type": "raw",
+            "maxlen": 128
+          }
+        },
+        {
+          "abilityId": 9,
+          "accessMode": "ro",
+          "code": "fault",
+          "description": "1. Alarm\n2. Big-endian mode, HEX, 4 bytes\n3. Packet format:\n   - 4 bytes in total; each bit indicates if an alarm is active (1) or inactive (0). Unused bits are set to 0.\n   - Example: 0x00 00 00 09 => \"self-test leakage abnormal\" and \"short-circuit\" alarms are active.\n4. Communication logic:\n   - Whenever an alarm is triggered or cleared, the full 4-byte packet is reported to update the panel.",
+          "extensions": {
+            "iconName": "icon-baojing",
+            "attribute": "1152"
+          },
+          "name": "Fault alarm",
+          "typeSpec": {
+            "type": "bitmap",
+            "label": [
+              "short_circuit_alarm",
+              "surge_alarm",
+              "overload_alarm",
+              "leakagecurr_alarm",
+              "temp_dif_fault",
+              "fire_alarm",
+              "high_power_alarm",
+              "self_test_alarm",
+              "ov_cr",
+              "unbalance_alarm",
+              "ov_vol",
+              "undervoltage_alarm",
+              "miss_phase_alarm",
+              "outage_alarm",
+              "magnetism_alarm",
+              "credit_alarm",
+              "no_balance_alarm"
+            ],
+            "maxlen": 17
+          }
+        },
+        {
+          "abilityId": 11,
+          "accessMode": "rw",
+          "code": "switch_prepayment",
+          "description": "",
+          "extensions": {
+            "iconName": "icon-dp_money",
+            "attribute": "1152"
+          },
+          "name": "Prepayment function switch",
+          "typeSpec": {
+            "type": "bool"
+          }
+        },
+        {
+          "abilityId": 12,
+          "accessMode": "rw",
+          "code": "clear_energy",
+          "description": "",
+          "extensions": {
+            "iconName": "icon-dp_lightning",
+            "attribute": "1152"
+          },
+          "name": "Clear energy",
+          "typeSpec": {
+            "type": "bool"
+          }
+        },
+        {
+          "abilityId": 13,
+          "accessMode": "ro",
+          "code": "balance_energy",
+          "description": "",
+          "extensions": {
+            "iconName": "icon-dp_lightning",
+            "attribute": "1152"
+          },
+          "name": "Remaining available energy",
+          "typeSpec": {
+            "type": "value",
+            "max": 99999999,
+            "min": 0,
+            "scale": 2,
+            "step": 1,
+            "unit": "kW·h"
+          }
+        },
+        {
+          "abilityId": 14,
+          "accessMode": "rw",
+          "code": "charge_energy",
+          "description": "",
+          "extensions": {
+            "iconName": "icon-dp_money",
+            "attribute": "1152"
+          },
+          "name": "Energy recharge",
+          "typeSpec": {
+            "type": "value",
+            "max": 999999,
+            "min": 0,
+            "scale": 2,
+            "step": 1,
+            "unit": "kW·h"
+          }
+        },
+        {
+          "abilityId": 15,
+          "accessMode": "ro",
+          "code": "leakage_current",
+          "description": "",
+          "extensions": {
+            "iconName": "icon-power1",
+            "attribute": "1152"
+          },
+          "name": "Residual (leakage) current",
+          "typeSpec": {
+            "type": "value",
+            "max": 1000,
+            "min": 0,
+            "scale": 0,
+            "step": 1,
+            "unit": "mA"
+          }
+        },
+        {
+          "abilityId": 16,
+          "accessMode": "rw",
+          "code": "switch",
+          "description": "",
+          "extensions": {
+            "iconName": "icon-dp_power2",
+            "attribute": "1152"
+          },
+          "name": "Breaker ON/OFF switch",
+          "typeSpec": {
+            "type": "bool"
+          }
+        },
+        {
+          "abilityId": 17,
+          "accessMode": "rw",
+          "code": "alarm_set_1",
+          "description": "1. Alarm threshold enable and configuration\n2. HEX format, Big-endian, total alarms * 4 bytes = total alarm length\n3. Packet format:\n   - Each alarm is 4 bytes:\n     (1) Byte 1 => alarm present (1) or not (0)\n     (2) Byte 2 => if triggered, breaker action (0x01 = trip, 0x00 = no trip, just alarm)\n     (3) Bytes 3-4 => alarm threshold\n   - Example: 0x01 01 00 00 03 01 00 14 => the breaker supports short-circuit alarm (with auto trip, threshold 0), and overload alarm (with trip at 20 kW). No other alarms.\n4. Communication logic:\n   - After pairing, the breaker reports these alarm capabilities to the cloud.\n   - On power-up, it also reports once.\n   - The panel can then send alarm settings.",
+          "extensions": {
+            "iconName": "icon-dp_warming",
+            "attribute": "1152"
+          },
+          "name": "Alarm settings 1",
+          "typeSpec": {
+            "type": "raw",
+            "maxlen": 128
+          }
+        },
+        {
+          "abilityId": 18,
+          "accessMode": "rw",
+          "code": "alarm_set_2",
+          "description": "1. Alarm threshold enable and configuration\n2. HEX format, Big-endian\n3. Packet format:\n   - Each alarm is 4 bytes:\n     (1) Byte 1 => alarm present (1) or not (0)\n     (2) Byte 2 => if triggered, breaker action (0x01 = trip, 0x00 = no trip, just alarm)\n     (3) Bytes 3-4 => alarm threshold\n   - Example: 0x01 01 00 3C 03 01 00 F5 => Overcurrent alarm (trip at 60 A) and Overvoltage alarm (trip at 245 V)\n4. Communication logic:\n   - After pairing, the breaker reports these alarm capabilities to the cloud.\n   - On power-up, it also reports once.\n   - The panel can set alarms via this protocol.",
+          "extensions": {
+            "iconName": "icon-dp_warming",
+            "attribute": "1152"
+          },
+          "name": "Alarm settings 2",
+          "typeSpec": {
+            "type": "raw",
+            "maxlen": 128
+          }
+        },
+        {
+          "abilityId": 19,
+          "accessMode": "ro",
+          "code": "breaker_id",
+          "description": "1. Device number / ID\n2. Big-endian mode, string type\n3. Unit precision\n4. Packet format\n5. Communication logic:\n   - During pairing, the breaker sends this ID 3 times to ensure success. If paired, the panel should display the ID.\n   - If pairing succeeds but no ID is shown, remove the device and re-pair.\n   - Each time the breaker powers up, it also reports the ID once.",
+          "extensions": {
+            "iconName": "icon-dp_mode",
+            "attribute": "1152"
+          },
+          "name": "Device ID display",
+          "typeSpec": {
+            "type": "string",
+            "maxlen": 255
+          }
+        },
+        {
+          "abilityId": 34,
+          "accessMode": "rw",
+          "code": "factory_reset",
+          "description": "",
+          "extensions": {
+            "iconName": "icon-dp_anti-clockwise",
+            "attribute": "1024"
+          },
+          "name": "Restore factory settings",
+          "typeSpec": {
+            "type": "bool"
+          }
+        },
+        {
+          "abilityId": 104,
+          "accessMode": "rw",
+          "code": "over_vol_protect_time",
+          "description": "",
+          "extensions": {
+            "iconName": "icon-dp_time3",
+            "attribute": "4096"
+          },
+          "name": "Over/under-voltage trip protection time",
+          "typeSpec": {
+            "type": "value",
+            "max": 30,
+            "min": 1,
+            "scale": 0,
+            "step": 1,
+            "unit": "sec"
+          }
+        },
+        {
+          "abilityId": 105,
+          "accessMode": "rw",
+          "code": "over_vol_recovery_time",
+          "description": "",
+          "extensions": {
+            "iconName": "icon-dp_time3",
+            "attribute": "4096"
+          },
+          "name": "Over/under-voltage protection recovery time",
+          "typeSpec": {
+            "type": "value",
+            "max": 500,
+            "min": 1,
+            "scale": 0,
+            "step": 1,
+            "unit": "sec"
+          }
+        }
+      ]
+    }
+  ]
+}
