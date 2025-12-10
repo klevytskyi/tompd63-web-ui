@@ -48,19 +48,52 @@ export const toggleClearEnergy = () => toggleButton(12);
 
 type GenericProtectionOptions = {
   enabled: boolean;
-  break: boolean;
   threshold: number;
 };
 
-const createProtectionSetting = (opt: GenericProtectionOptions) => [
+/**
+ * Creates payload for voltage/current protection settings (DpID 18).
+ * Working format from TOMPD-63-WIFI_rev7.html:
+ * - Current:      [0x01, enabled, 0x00, threshold_8bit]
+ * - Overvoltage:  [0x03, enabled, threshold_high, threshold_low]
+ * - Undervoltage: [0x04, enabled, threshold_high, threshold_low]
+ *
+ * Each protection has a fixed prefix byte (0x01, 0x03, 0x04) to identify the type.
+ * Note: Current threshold is 8-bit, voltage thresholds are 16-bit big-endian.
+ */
+const createCurrentProtection = (opt: GenericProtectionOptions) => [
+  0x01,
   +opt.enabled,
-  +opt.break,
+  0x00,
+  opt.threshold & 0xff,
+];
+
+const createOvervoltageProtection = (opt: GenericProtectionOptions) => [
+  0x03,
+  +opt.enabled,
   ...BigEndian16(opt.threshold),
 ];
 
+const createUndervoltageProtection = (opt: GenericProtectionOptions) => [
+  0x04,
+  +opt.enabled,
+  ...BigEndian16(opt.threshold),
+];
+
+/**
+ * Leakage current protection (DpID 17) uses a similar but separate format:
+ * [0x04, enabled, threshold_high, threshold_low]
+ */
 export const setCurrentLeakageProtection = async (
   options: GenericProtectionOptions
-) => sendMsg(createMessage(17, DpType.RAW, createProtectionSetting(options)));
+) =>
+  sendMsg(
+    createMessage(17, DpType.RAW, [
+      0x04,
+      +options.enabled,
+      ...BigEndian16(options.threshold),
+    ])
+  );
 
 type VCProtectionOptions = {
   current: GenericProtectionOptions;
@@ -70,9 +103,9 @@ type VCProtectionOptions = {
 
 const createVCProtectionPayload = (options: VCProtectionOptions) => {
   return [
-    ...createProtectionSetting(options.current),
-    ...createProtectionSetting(options.overvoltage),
-    ...createProtectionSetting(options.undervoltage),
+    ...createCurrentProtection(options.current),
+    ...createOvervoltageProtection(options.overvoltage),
+    ...createUndervoltageProtection(options.undervoltage),
   ];
 };
 

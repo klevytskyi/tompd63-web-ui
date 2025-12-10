@@ -23,7 +23,6 @@ const DPIDS = {
 // State types
 export type Protection = {
   enabled: boolean;
-  break: boolean;
   threshold: number;
 };
 
@@ -39,7 +38,6 @@ export type Store = {
   prepayment: boolean;
   reactionTime: number;
   recoveryTime: number;
-  isPolling: boolean;
   voltage: number;
   current: number;
   power: number;
@@ -47,6 +45,9 @@ export type Store = {
   leakageCurrent: number;
   leftKwhBalance: number;
   errors: string[];
+  isPolling: boolean;
+  errorsCount: number;
+  offline: boolean;
 };
 
 // Create reactive store
@@ -57,29 +58,24 @@ let state: Store = {
   prepayment: false,
   currentLeakageProtection: {
     enabled: false,
-    break: true,
     threshold: 30,
   },
   vcProtection: {
     current: {
       enabled: false,
-      break: true,
       threshold: 63,
     },
     overvoltage: {
       enabled: false,
-      break: true,
       threshold: 250,
     },
     undervoltage: {
       enabled: false,
-      break: true,
       threshold: 180,
     },
   },
   reactionTime: 10,
   recoveryTime: 20,
-  isPolling: false,
   voltage: 0,
   current: 0,
   power: 0,
@@ -87,6 +83,9 @@ let state: Store = {
   leakageCurrent: 0,
   leftKwhBalance: 0,
   errors: [],
+  isPolling: false,
+  errorsCount: 0,
+  offline: false,
 };
 
 export const store = {
@@ -108,6 +107,9 @@ export const store = {
 
   // Polling
   startPolling(interval = 1000) {
+    if (state.errorsCount > 5) {
+      state.offline = true;
+    }
     if (state.isPolling) return;
 
     state.isPolling = true;
@@ -119,6 +121,11 @@ export const store = {
         if (!dps) return;
 
         this.updateFromDps(dps);
+        if (state.errorsCount > 0) {
+          state.errorsCount -= 1;
+        }
+      } catch (err) {
+        state.errorsCount += 1;
       } finally {
         setTimeout(poll, interval);
       }
@@ -170,7 +177,6 @@ export const store = {
           const lcurrprot = dp.data as number;
           newState.currentLeakageProtection = {
             enabled: Boolean((lcurrprot >> 16) & 0xff),
-            break: false,
             threshold: lcurrprot & 0xffff,
           };
           break;
@@ -179,17 +185,14 @@ export const store = {
           newState.vcProtection = {
             current: {
               enabled: Boolean(parseInt(othprot.slice(0, 2), 16)),
-              break: Boolean(parseInt(othprot.slice(2, 4), 16)),
               threshold: parseInt(othprot.slice(4, 8), 16),
             },
             overvoltage: {
               enabled: Boolean(parseInt(othprot.slice(8, 10), 16)),
-              break: Boolean(parseInt(othprot.slice(10, 12), 16)),
               threshold: parseInt(othprot.slice(12, 16), 16),
             },
             undervoltage: {
               enabled: Boolean(parseInt(othprot.slice(16, 18), 16)),
-              break: Boolean(parseInt(othprot.slice(18, 20), 16)),
               threshold: parseInt(othprot.slice(20, 24), 16),
             },
           };

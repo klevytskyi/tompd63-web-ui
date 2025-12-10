@@ -10,7 +10,9 @@ export const getFaultMessages = (faultCode: number): string[] =>
   FAULT_STATE_MESSAGES.filter((_, index) => faultCode & (1 << index));
 
 export function bytesToString(array: number[]): string {
-  return array.map((b) => b.toString(16).padStart(2, "0")).join("");
+  return array
+    .map((b) => b.toString(16).padStart(2, "0").toUpperCase())
+    .join("");
 }
 
 export function toBigEndian16(num: number): number[] {

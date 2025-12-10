@@ -110,15 +110,15 @@ input[type="text"],input[type="number"] {
   display: none;
 }
 
-.toggle {
-  /* .toggle-label {
+/* .toggle {
+  .toggle-label {
     text-align: center;
-  } */
+  }
 
   .btn {
     margin: 0 auto;
   }
-}
+} */
 
 .btn {
   width: 125px;
@@ -327,7 +327,7 @@ input[type="text"],input[type="number"] {
   }
 } 
 
-.settings {
+.settings-container {
   justify-content: space-between;
 }
 
