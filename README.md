@@ -1,3 +1,5 @@
+[![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-single.svg)](https://stand-with-ukraine.pp.ua/)
+
 # TOMPD-63 Web UI
 
 Modern web interface for configuring and monitoring TOMPD-63 smart breakers.
@@ -75,6 +77,10 @@ VITE_DEVICE_BASE_URL=http://192.168.0.178
 
 If not set, the app will use `window.location.origin` (the current page's origin). In production, when hosted on the device itself, no configuration is needed as it will automatically connect to the device serving the UI.
 
+## Credits
+
+Inspired by discussions and contributions from the [elektroda.com forum](https://www.elektroda.com/rtvforum/topic4040354.html).
+
 ## License
 
-Private project
+MIT License - see [LICENSE](LICENSE) file for details.
