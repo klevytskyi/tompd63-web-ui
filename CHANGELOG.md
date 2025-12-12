@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/klevytskyi/tompd63-web-ui/compare/v1.0.0...v1.0.1) (2025-12-12)
+
+
+### Bug Fixes
+
+* tsc build fix ([88ae227](https://github.com/klevytskyi/tompd63-web-ui/commit/88ae227ea732f3fa8c05a904cbaca4e334af2500))
+
 ## 1.0.0 (2025-12-12)
 
 
