@@ -6,6 +6,7 @@ export const Errors = () => {
 
   function render() {
     const errors = useStore((s) => s.errors);
+    if (!container) return;
 
     container.innerHTML = errors
       .map(
@@ -13,7 +14,7 @@ export const Errors = () => {
             <div class="device-status">
                 ${err}
             </div>
-            `
+            `,
       )
       .join("\n");
   }

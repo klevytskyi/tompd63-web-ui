@@ -151,7 +151,7 @@ export const store = {
           break;
         case DPIDS.measurements: {
           const { voltage, current, power } = parseMeasurements(
-            dp.data as string
+            dp.data as string,
           );
           newState.voltage = voltage;
           newState.current = current;

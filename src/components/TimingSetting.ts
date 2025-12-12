@@ -24,6 +24,7 @@ export const TimingSetting = (props: {
 
   function render() {
     const value = useStore(props.selector);
+    if (!input || !output) return;
     if (isDirty || isTouched) {
       if (value.toString() === input.value) {
         isDirty = false;

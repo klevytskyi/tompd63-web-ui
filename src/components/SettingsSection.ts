@@ -13,7 +13,7 @@ import { TimingSetting } from "./TimingSetting";
 export const SettingsSection = () => {
   // Toggle settings visibility
   const settingsContainer = document.querySelector(
-    "#settings .settings-container"
+    "#settings .settings-container",
   );
   const toggleButton = document.querySelector("#settings button");
 
@@ -63,7 +63,7 @@ export const SettingsSection = () => {
 
   const updateProtection = (
     key: keyof Store["vcProtection"],
-    value: Partial<Protection>
+    value: Partial<Protection>,
   ) => {
     const vcp = store.getState().vcProtection;
     setVCProtection({
