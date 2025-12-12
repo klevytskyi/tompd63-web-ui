@@ -5,10 +5,10 @@ export const PrepaymentSettings = () => {
   let isDirty = false;
 
   const container = document.querySelector(
-    "#expence-management"
+    "#expence-management",
   ) as HTMLElement;
   const toggle = container.querySelector(
-    "input[type=checkbox]"
+    "input[type=checkbox]",
   ) as HTMLInputElement;
   const button = container.querySelector("button") as HTMLButtonElement;
 

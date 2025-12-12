@@ -7,12 +7,14 @@ Modern web interface for configuring and monitoring TOMPD-63 smart breakers.
 ## Features
 
 - **Real-time Monitoring**
+
   - Voltage, current, and power measurements
   - Leakage current detection
   - Total energy consumption
   - Fault status with detailed error messages
 
 - **Protection Settings**
+
   - Leakage current protection (10-99mA)
   - Overvoltage protection (110-300V)
   - Undervoltage protection (85-220V)
@@ -21,6 +23,7 @@ Modern web interface for configuring and monitoring TOMPD-63 smart breakers.
   - Configurable recovery time (1-500s)
 
 - **Prepayment Mode**
+
   - Energy balance tracking
   - Energy top-up functionality
   - Automatic cutoff when balance depleted
@@ -63,13 +66,14 @@ The UI communicates with the breaker via UART using the Tuya MCU protocol:
 
 ## Configuration
 
-The device IP address can be configured in `src/api.ts`:
+Create a `.env` file in the project root to configure the device URL for development:
 
-```typescript
-let baseURL = import.meta.env.DEV ? "http://192.168.0.178" : "";
+```bash
+# .env
+VITE_DEVICE_BASE_URL=http://192.168.0.178
 ```
 
-For development, set your device's IP address. In production, the UI is hosted on the device itself.
+If not set, the app will use `window.location.origin` (the current page's origin). In production, when hosted on the device itself, no configuration is needed as it will automatically connect to the device serving the UI.
 
 ## License
 

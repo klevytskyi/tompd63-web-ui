@@ -13,27 +13,27 @@ const handleOnTopUpClick = () => {
 
 export const Telemetry = () => {
   const voltageEl = document.querySelector(
-    "#voltage .telemetry-value"
+    "#voltage .telemetry-value",
   ) as HTMLElement;
   const currentEl = document.querySelector(
-    "#current .telemetry-value"
+    "#current .telemetry-value",
   ) as HTMLElement;
   const powerEl = document.querySelector(
-    "#power .telemetry-value"
+    "#power .telemetry-value",
   ) as HTMLElement;
   const leakageEl = document.querySelector(
-    "#current-leakage .telemetry-value"
+    "#current-leakage .telemetry-value",
   ) as HTMLElement;
   const totalPowerEl = document.querySelector(
-    "#total-energy .telemetry-value"
+    "#total-energy .telemetry-value",
   ) as HTMLElement;
   const balanceRoot = document.querySelector("#energy-balance") as HTMLElement;
   const energyBalanceValue = balanceRoot.querySelector(
-    ".telemetry-value"
+    ".telemetry-value",
   ) as HTMLElement;
   (document.querySelector("#top-up") as HTMLButtonElement).addEventListener(
     "click",
-    handleOnTopUpClick
+    handleOnTopUpClick,
   );
 
   function render() {
@@ -52,7 +52,7 @@ export const Telemetry = () => {
     powerEl.innerText = state.power.toFixed();
     leakageEl.innerText = state.leakage.toFixed();
     totalPowerEl.innerText = state.totalPower.toFixed(
-      state.totalPower > 1 ? 0 : 3
+      state.totalPower > 1 ? 0 : 3,
     );
     energyBalanceValue.innerText = state.balance.toFixed(2);
     if (state.prepaymentEnabled) {

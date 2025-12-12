@@ -1,5 +1,5 @@
 import { getDps } from "./api";
-import { type DpEntry } from "./types";
+import type { DpEntry } from "./types";
 import { getFaultMessages, parseMeasurements } from "./utils";
 
 // DpIDs
@@ -102,7 +102,9 @@ export const store = {
 
   setState(newState: Partial<Store>) {
     state = { ...state, ...newState };
-    subscribers.forEach((callback) => callback());
+    subscribers.forEach((callback) => {
+      callback();
+    });
   },
 
   // Polling
@@ -124,7 +126,7 @@ export const store = {
         if (state.errorsCount > 0) {
           state.errorsCount -= 1;
         }
-      } catch (err) {
+      } catch (_err) {
         state.errorsCount += 1;
       } finally {
         setTimeout(poll, interval);
@@ -147,7 +149,7 @@ export const store = {
         case DPIDS.total_energy:
           newState.totalPower = (dp.data as number) / 1000; // kWh
           break;
-        case DPIDS.measurements:
+        case DPIDS.measurements: {
           const { voltage, current, power } = parseMeasurements(
             dp.data as string
           );
@@ -155,6 +157,7 @@ export const store = {
           newState.current = current;
           newState.power = power;
           break;
+        }
         case DPIDS.lcurr:
           newState.leakageCurrent = dp.data as number; // mA
           break;
@@ -173,14 +176,15 @@ export const store = {
         case DPIDS.breaker_id:
           newState.id = dp.data as string;
           break;
-        case DPIDS.lcurr_prot:
+        case DPIDS.lcurr_prot: {
           const lcurrprot = dp.data as number;
           newState.currentLeakageProtection = {
             enabled: Boolean((lcurrprot >> 16) & 0xff),
             threshold: lcurrprot & 0xffff,
           };
           break;
-        case DPIDS.oth_prot:
+        }
+        case DPIDS.oth_prot: {
           const othprot = dp.data as string;
           newState.vcProtection = {
             current: {
@@ -197,6 +201,7 @@ export const store = {
             },
           };
           break;
+        }
         case DPIDS.reaction_time:
           newState.reactionTime = dp.data as number;
           break;
@@ -210,7 +215,7 @@ export const store = {
 };
 
 export function useStore<T>(selector: (state: Store) => T): T {
-  let value = selector(state);
+  const value = selector(state);
 
   return value;
 }

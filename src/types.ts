@@ -1,4 +1,4 @@
-import { DpType as DpType } from "./constants";
+import type { DpType } from "./constants";
 
 /** Basic device information and configuration */
 export interface DeviceStatus {

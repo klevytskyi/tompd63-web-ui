@@ -85,14 +85,14 @@ const createUndervoltageProtection = (opt: GenericProtectionOptions) => [
  * [0x04, enabled, threshold_high, threshold_low]
  */
 export const setCurrentLeakageProtection = async (
-  options: GenericProtectionOptions
+  options: GenericProtectionOptions,
 ) =>
   sendMsg(
     createMessage(17, DpType.RAW, [
       0x04,
       +options.enabled,
       ...BigEndian16(options.threshold),
-    ])
+    ]),
   );
 
 type VCProtectionOptions = {

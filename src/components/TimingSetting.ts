@@ -1,15 +1,16 @@
-import { Store, store, useStore } from "../store";
+import { type Store, store, useStore } from "../store";
 
 export const TimingSetting = (props: {
   element: Element;
-  selector: (s: Store) => any;
-  onChange: (e: Event) => any;
+  selector: (s: Store) => number;
+  onChange: (e: Event) => void;
 }) => {
   let isDirty = false;
   let isTouched = false;
 
-  const input = props.element.querySelector("input")!;
-  const output = props.element.querySelector("output")!;
+  const input = props.element.querySelector("input");
+  const output = props.element.querySelector("output");
+  if (!input || !output) return;
 
   input.addEventListener("input", (e: Event) => {
     isTouched = true;

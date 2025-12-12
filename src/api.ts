@@ -1,7 +1,7 @@
-import { DeviceStatusResponse, DpListResponse } from "./types";
+import type { DeviceStatusResponse, DpListResponse } from "./types";
 import { bytesToString } from "./utils";
 
-let baseURL = import.meta.env.DEV ? "http://192.168.0.178" : "";
+const baseURL = import.meta.env.VITE_DEVICE_BASE_URL || window.location.origin;
 
 export async function getStatus() {
   try {

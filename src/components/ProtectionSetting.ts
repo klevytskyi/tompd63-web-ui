@@ -1,7 +1,7 @@
-import { Store, store, useStore } from "../store";
+import { type Store, store, useStore } from "../store";
 
 export const ProtectionSetting = <
-  T extends { enabled: boolean; threshold: number }
+  T extends { enabled: boolean; threshold: number },
 >(props: {
   element: Element;
   selector: (s: Store) => T;
@@ -12,10 +12,10 @@ export const ProtectionSetting = <
   let isTouched = false;
 
   const toggle = props.element.querySelector(
-    "input[type=checkbox]"
+    "input[type=checkbox]",
   ) as HTMLInputElement;
   const thresholdInput = props.element.querySelector(
-    "input[type=number]"
+    "input[type=number]",
   ) as HTMLInputElement;
 
   const handleTouched = () => {
@@ -40,7 +40,7 @@ export const ProtectionSetting = <
     if (!(e.target as HTMLInputElement).reportValidity()) {
       return;
     }
-    props.onChangeThreshold(parseInt((e.target as HTMLInputElement).value));
+    props.onChangeThreshold(parseInt((e.target as HTMLInputElement).value, 10));
   });
 
   function render() {

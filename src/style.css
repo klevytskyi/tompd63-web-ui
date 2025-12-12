@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 1);
-  background-color: #21333e;;
+  background-color: #21333e;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -25,7 +25,10 @@ h3 {
   font-weight: 500;
 }
 
-button, input[type="button"], input[type="reset"], input[type="submit"] {
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
   border: 0;
   border-radius: 0.3rem;
   background: var(--primary);
@@ -45,9 +48,10 @@ button, input[type="button"], input[type="reset"], input[type="submit"] {
   box-sizing: border-box;
 }
 
-input[type="text"],input[type="number"] {
+input[type="text"],
+input[type="number"] {
   padding: calc(var(--base) / 2) var(--base);
-  font-size:18px;
+  font-size: 18px;
 }
 
 .container {
@@ -83,16 +87,16 @@ input[type="text"],input[type="number"] {
   gap: var(--base);
 }
 .gap-2 {
-  gap: calc(var(--base)*2);
+  gap: calc(var(--base) * 2);
 }
 .gap-3 {
-  gap: calc(var(--base)*3);
+  gap: calc(var(--base) * 3);
 }
 .gap-4 {
-  gap: calc(var(--base)*4);
+  gap: calc(var(--base) * 4);
 }
 .gap-5 {
-  gap: calc(var(--base)*5);
+  gap: calc(var(--base) * 5);
 }
 .mt-2 {
   margin-top: calc(var(--base) * 2);
@@ -131,7 +135,7 @@ input[type="text"],input[type="number"] {
 
   .btn-checkbox {
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
@@ -149,7 +153,7 @@ input[type="text"],input[type="number"] {
   }
 
   .btn-knob {
-    position:absolute;
+    position: absolute;
     background: #555555;
     height: 50%;
     width: 100%;
@@ -161,7 +165,7 @@ input[type="text"],input[type="number"] {
     justify-content: center;
 
     &::before {
-      content: '?';
+      content: "?";
       display: block;
       font-size: 32px;
       font-weight: 700;
@@ -177,7 +181,7 @@ input[type="text"],input[type="number"] {
     background-color: var(--success);
 
     &::before {
-      content: 'ON';
+      content: "ON";
     }
   }
 }
@@ -190,7 +194,7 @@ input[type="text"],input[type="number"] {
     background-color: var(--error);
 
     &::before {
-      content: 'OFF';
+      content: "OFF";
     }
   }
 }
@@ -271,7 +275,7 @@ input[type="text"],input[type="number"] {
   background: var(--error);
 
   &::before {
-    content: '⚠️';  /* ⚠️ */
+    content: "⚠️"; /* ⚠️ */
     margin-right: 0.5em;
   }
 }
@@ -304,11 +308,11 @@ input[type="text"],input[type="number"] {
 
   .switch-track {
     position: absolute;
-    top:0;
-    left:0;
-    right:0;
+    top: 0;
+    left: 0;
+    right: 0;
     bottom: 0;
-    background: #BDB9A6;
+    background: #bdb9a6;
   }
 
   & input {
@@ -325,7 +329,7 @@ input[type="text"],input[type="number"] {
       }
     }
   }
-} 
+}
 
 .settings-container {
   justify-content: space-between;

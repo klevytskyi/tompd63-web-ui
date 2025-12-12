@@ -1,10 +1,10 @@
 import {
+  setCurrentLeakageProtection,
   setProtectionTiming,
   setRecoveryTiming,
   setVCProtection,
-  setCurrentLeakageProtection,
 } from "../messages";
-import { Store, Protection, store } from "../store";
+import { type Protection, type Store, store } from "../store";
 import { debounce } from "../utils";
 import { PrepaymentSettings } from "./PrepaymentSettings";
 import { ProtectionSetting } from "./ProtectionSetting";
@@ -26,8 +26,26 @@ export const SettingsSection = () => {
     }
   });
 
+  const reactionTimeEl = document.querySelector("#reaction-time");
+  const cooldownTimeEl = document.querySelector("#cooldown-time");
+  const overvoltageEl = document.querySelector("#overvoltage-protection");
+  const undervoltageEl = document.querySelector("#undervoltage-protection");
+  const overcurrentEl = document.querySelector("#overcurrent-protection");
+  const leakageEl = document.querySelector("#leakage-protection");
+
+  if (
+    !reactionTimeEl ||
+    !cooldownTimeEl ||
+    !overvoltageEl ||
+    !undervoltageEl ||
+    !overcurrentEl ||
+    !leakageEl
+  ) {
+    return;
+  }
+
   TimingSetting({
-    element: document.querySelector("#reaction-time")!,
+    element: reactionTimeEl,
     selector: (s) => s.reactionTime,
     onChange: debounce((e: Event) => {
       const value = (e.target as HTMLInputElement).value;
@@ -35,7 +53,7 @@ export const SettingsSection = () => {
     }, 500),
   });
   TimingSetting({
-    element: document.querySelector("#cooldown-time")!,
+    element: cooldownTimeEl,
     selector: (s) => s.recoveryTime,
     onChange: debounce((e: Event) => {
       const value = (e.target as HTMLInputElement).value;
@@ -58,7 +76,7 @@ export const SettingsSection = () => {
   };
 
   ProtectionSetting({
-    element: document.querySelector("#overvoltage-protection")!,
+    element: overvoltageEl,
     selector: (s) => s.vcProtection.overvoltage,
     onToggle: (enabled: boolean) => {
       updateProtection("overvoltage", { enabled });
@@ -68,7 +86,7 @@ export const SettingsSection = () => {
     }, 500),
   });
   ProtectionSetting({
-    element: document.querySelector("#undervoltage-protection")!,
+    element: undervoltageEl,
     selector: (s) => s.vcProtection.undervoltage,
     onToggle: (enabled: boolean) => {
       updateProtection("undervoltage", { enabled });
@@ -78,7 +96,7 @@ export const SettingsSection = () => {
     }, 500),
   });
   ProtectionSetting({
-    element: document.querySelector("#overcurrent-protection")!,
+    element: overcurrentEl,
     selector: (s) => s.vcProtection.current,
     onToggle: (enabled: boolean) => {
       updateProtection("current", { enabled });
@@ -88,7 +106,7 @@ export const SettingsSection = () => {
     }, 500),
   });
   ProtectionSetting({
-    element: document.querySelector("#leakage-protection")!,
+    element: leakageEl,
     selector: (s) => s.currentLeakageProtection,
     onToggle: (enabled: boolean) => {
       const leackageProtection = store.getState().currentLeakageProtection;

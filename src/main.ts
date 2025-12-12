@@ -1,10 +1,10 @@
 import "./style.css";
-import { store } from "./store";
-import { MainSwitch } from "./components/MainSwitch";
-import { Telemetry } from "./components/Telemetry";
-import { Errors } from "./components/Errors";
 import { getStatus } from "./api";
+import { Errors } from "./components/Errors";
+import { MainSwitch } from "./components/MainSwitch";
 import { SettingsSection } from "./components/SettingsSection";
+import { Telemetry } from "./components/Telemetry";
+import { store } from "./store";
 
 (async function updateTitles() {
   const deviceStatus = await getStatus();

@@ -28,9 +28,12 @@ export function toBigEndian32(num: number): number[] {
   ];
 }
 
-export function debounce(fn: Function, delay: number) {
+export function debounce<T extends (...args: never[]) => unknown>(
+  fn: T,
+  delay: number
+): (...args: Parameters<T>) => void {
   let timer: number;
-  return function (...args: any[]) {
+  return (...args: Parameters<T>) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
       fn(...args);

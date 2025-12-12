@@ -1,7 +1,8 @@
 import { store, useStore } from "../store";
 
 export const Errors = () => {
-  const container = document.querySelector("#errors-area")!;
+  const container = document.querySelector("#errors-area");
+  if (!container) return;
 
   function render() {
     const errors = useStore((s) => s.errors);
